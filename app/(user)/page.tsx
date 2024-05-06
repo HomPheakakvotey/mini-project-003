@@ -1,12 +1,15 @@
 "use client";
 import Hero from "@/components/Hero";
 import CardProduct from "@/components/card/Card";
-import { ProductType } from "@/lib/definition";
+import Company from "@/components/company/Company";
+import Feature from "@/components/feature/Feature";
+import Feedback from "@/components/feedback/Feedback";
+import { CartProductType, ProductType } from "@/lib/definition";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 export default function Home() {
-  const [products, setProduct] = useState<ProductType[]>([]);
+  const [products, setProduct] = useState<CartProductType[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const router = useRouter();
   const pageSize = 8;
@@ -26,19 +29,22 @@ export default function Home() {
   return (
     <section>
       <Hero/>
-      <section className="mt-10 container mx-auto p-8 grid grid-cols-1 sm:grid-cols-2 sm:p-8 grid-flow-row gap-6 md:grid-cols-4 z-10 ">
+      <section className="mt-10 container mx-auto p-8 grid grid-cols-1 sm:grid-cols-2 sm:p-8 grid-flow-row gap-6 md:grid-cols-4 z-10">
         {products.map((product: any, index) => (
           <CardProduct
-            onClick={() => router.push(`${product.id}`)}
+            onClick={() => router.push(`/${product.id}`)}
             key={index}
+            id={product.id}
+            desc={product.desc}
             name={product.name}
             image={product.image}
+            category={product.category}
             price={product.price}
           />
         ))}
       </section>
-      <nav className="grid place-content-center my-10 ">
-        <ul className="inline-flex -space-x-px text-sm mx-auto">
+      <nav className="grid place-content-center ">
+        <ul className="inline-flex text-sm mx-auto">
           <li>
             <button
               disabled={currentPage === 1}
@@ -73,6 +79,9 @@ export default function Home() {
           </li>
         </ul>
       </nav>
+      <Feature/>
+      <Company/>
+      <Feedback/>
     </section>
   );
 }

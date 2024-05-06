@@ -4,18 +4,23 @@ export type ProductType={
     price: number;
     desc: string;
     image: string;
-    category: {name:any};
+    category: string;
     seller: string;
     quantity:number;
+    onClick?: () => void
 }
 
-export type ProductRespone={
-    name:string,
-    image:string,
-    desc:string,
-    price:number,
-    onClick?:()=>void
-}
+export type CartProductType = {
+	id: number;
+	name: string;
+	price: number;
+	desc: string;
+	image: string;
+	category : string;
+	quantity?: number | 0;
+	onClick?: () => void;
+};
+
 
 export type ProductDetailType={
     params:{

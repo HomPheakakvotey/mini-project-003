@@ -11,9 +11,6 @@ import { ToastContainer, toast } from "react-toastify";
 
 import { Dropdown } from "flowbite-react";
 
-
-
-
 const validationSchema = Yup.object().shape({
 	categoryName: Yup.string().required("Required"),
 	name: Yup.string().required("Required"),

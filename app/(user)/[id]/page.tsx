@@ -42,13 +42,12 @@ export default async function Detail(props: Props) {
 	return (
 		<div className="h-screen grid place-content-center">
 			<CardComponent
-				title={data?.name || "NoTitle"}
-				description={data?.desc || "No Description"}
-				image={
-					data?.image ||
-					"https://i0.wp.com/sunrisedaycamp.org/wp-content/uploads/2020/10/placeholder.png?ssl=1"
-				}
-			/>
+				id={data?.id || "No ID"}
+				name={data?.name || "NoTitle"}
+				price={data?.price || "No Prce"}
+				desc={data?.desc || "No Description"}
+				image={data?.image ||
+					"https://i0.wp.com/sunrisedaycamp.org/wp-content/uploads/2020/10/placeholder.png?ssl=1"} category={""}	/>
 		</div>
 	);
 }

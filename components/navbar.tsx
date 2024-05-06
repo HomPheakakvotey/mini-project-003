@@ -1,5 +1,4 @@
-
-"use client"
+"use client";
 import {
   Navbar as NextUINavbar,
   NavbarContent,
@@ -12,10 +11,10 @@ import {
 import { Button } from "@nextui-org/button";
 import { FaCartShopping } from "react-icons/fa6";
 import Link from "next/link";
-import { signOut, useSession } from 'next-auth/react';
-import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import { selectToken } from '@/redux/feature/auth/authSlice';
-import { usePathname } from 'next/navigation';
+import { signOut, useSession } from "next-auth/react";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { selectToken } from "@/redux/feature/auth/authSlice";
+import { usePathname } from "next/navigation";
 
 import { link as linkStyles } from "@nextui-org/theme";
 
@@ -29,17 +28,26 @@ import { TwitterIcon, GithubIcon, DiscordIcon } from "@/components/icons";
 import { Logo } from "@/components/icons";
 import { useEffect } from "react";
 import { fetchUserProfile } from "@/redux/feature/userProfile/userProfileSlice";
-import { Avatar, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/react";
+import {
+  Avatar,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
+} from "@nextui-org/react";
 import router, { useRouter } from "next/navigation";
 
 export const Navbar = () => {
-
-  const {data: session} = useSession()
-  const dispatch = useAppDispatch()
+  const { data: session } = useSession();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(fetchUserProfile())
-  })
+    dispatch(fetchUserProfile());
+  });
+
+  const cart = useAppSelector((state) => state.cart.products);
+	let cartLength = cart.length;
+
 
   const router = useRouter();
 
@@ -49,7 +57,7 @@ export const Navbar = () => {
         <NavbarBrand as="li" className="gap-3 max-w-fit">
           <NextLink className="flex justify-start items-center gap-1" href="/">
             <Logo />
-            <p className="font-bold text-inherit">ACME</p>
+            <p className="font-bold text-inherit">AMORE</p>
           </NextLink>
         </NavbarBrand>
         <ul className="hidden lg:flex gap-4 justify-start ml-2">
@@ -88,38 +96,41 @@ export const Navbar = () => {
         </NavbarItem>
         <NavbarItem className="hidden md:flex gap-2">
           <Button
-            as={Link}
             className="text-sm font-normal text-default-600 bg-default-100"
-            href={siteConfig.links.sponsor}
+            onClick={() => router.push(`/cart`)}
             startContent={<FaCartShopping className="text-danger" />}
             variant="flat"
-          ></Button>
+          >{cartLength}</Button>
           {session ? (
             <Dropdown placement="bottom-end">
-             <DropdownTrigger>
-               <Avatar  
-                 isBordered
-                 as="button"
-                 className="transition-transform"
-                 color="secondary"
-                 name="Jason Hughes"
-                 size="sm"
-                 src={session.user?.image as string}
-               />
-             </DropdownTrigger>
-             <DropdownMenu aria-label="Profile Actions" variant="flat">
-               <DropdownItem onClick={()=>signOut()} key="logout" color="danger">
-                 Log Out
-               </DropdownItem>
-             </DropdownMenu>
-           </Dropdown>
+              <DropdownTrigger>
+                <Avatar
+                  isBordered
+                  as="button"
+                  className="transition-transform"
+                  color="secondary"
+                  name="Jason Hughes"
+                  size="sm"
+                  src={session.user?.image as string}
+                />
+              </DropdownTrigger>
+              <DropdownMenu aria-label="Profile Actions" variant="flat">
+                <DropdownItem
+                  onClick={() => signOut()}
+                  key="logout"
+                  color="danger"
+                >
+                  Log Out
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
           ) : (
             <Button
-            onClick={()=>router.push(`/login`)}
-            className="text-sm font-normal text-default-600 bg-default-100"
-          >
-            Login
-          </Button>
+              onClick={() => router.push(`/login`)}
+              className="text-sm font-normal text-default-600 bg-default-100"
+            >
+              Login
+            </Button>
           )}
         </NavbarItem>
       </NavbarContent>
@@ -134,13 +145,13 @@ export const Navbar = () => {
 
       <NavbarMenu>
         <div className="mx-4 mt-2 flex flex-col gap-2">
-          {siteConfig.navMenuItems.map((item, index) => (
+          {siteConfig.navItems.map((item, index) => (
             <NavbarMenuItem key={`${item}-${index}`}>
               <Link
                 color={
                   index === 2
                     ? "primary"
-                    : index === siteConfig.navMenuItems.length - 1
+                    : index === siteConfig.navItems.length - 1
                     ? "danger"
                     : "foreground"
                 }
